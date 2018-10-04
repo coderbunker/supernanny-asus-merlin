@@ -13,7 +13,7 @@ targets = [
 
 # device_count
 def writeToInflux(json_body):
-    client = InfluxDBClient('206.189.45.190', 8086, 'test')
+    client = InfluxDBClient('206.189.45.190', 8086, '', '', 'test')
     client.write_points(json_body)
 
 
@@ -35,20 +35,21 @@ def getMacCount(ip, port):
 
 
 def main():
-    myjson = {
+    json_body = []
+    for t in targets:
+        count = getMacCount(t[0], t[1])
+
+        myjson = {
             "measurement": "wlan-device-count",
             "tags": {
                 "location": location,
-                "ip": ip
+                "ip": t[0]
             },
             "fields": {
                 "macs": count
             }
         }
-    json_body = []
-    for t in targets:
-        count = getMacCount(t[0], t[1])
-        json_body.append(myjson.format(location, t[0], count))
+        json_body.append(myjson)
     writeToInflux(json_body)
 
 if __name__== "__main__":

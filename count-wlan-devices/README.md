@@ -20,7 +20,7 @@ Deploy the key to all routers
 ## Clone the code
 ```
 cd /home/asus-merlin
-git clone 
+git clone git@github.com:coderbunker/supernanny-assus-merlin.git
 ```
 
 ## Create python virtual env
